@@ -3,9 +3,9 @@
     // import { kebabCase } from 'lodash'
     import kebabCase from 'lodash.kebabcase'
     import Vue, { defineComponent, h, PropType, VNode, onUnmounted } from 'vue'
-    import { AnchorPlacement } from '../enums/AOSAnchorPlacement'
-    import { cleanEmptyProperty, isBrowserMode } from '../utils'
-    // import { dispatcherInstance } from './classes/Dispatcher'
+    import { AnchorPlacement } from './AOSAnchorPlacement'
+    import { cleanEmptyProperty, isBrowserMode } from './utils'
+    // import { dispatcherInsance } from './classes/Dispatcher'
 
     const customProps = [ 'order', 'step', 'isGroup', 'tag' ]
     const defaultProps: Record<string, string | number> = {}

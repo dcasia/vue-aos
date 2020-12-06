@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "strict": true,
+        "importHelpers": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": true,
+        "baseUrl": ".",
+        "resolveJsonModule": true,
+        "lib": [
+            "esnext",
+            "dom",
+        ]
+    },
+    "files": [
+        "@types"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

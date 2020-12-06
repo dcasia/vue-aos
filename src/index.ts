@@ -1,6 +1,6 @@
 import { AosOptions } from 'aos'
 import aos from '@dcasia/aos'
-import AOS from '../components/AOS.vue'
+import AOS from './AOS.vue'
 import { App } from 'vue'
 
 // let aosOption: AosOptions
