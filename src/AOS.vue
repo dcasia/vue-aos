@@ -1,11 +1,9 @@
 <script lang="ts">
 
-    // import { kebabCase } from 'lodash'
     import kebabCase from 'lodash.kebabcase'
     import Vue, { defineComponent, h, PropType, VNode, onUnmounted } from 'vue'
     import { AnchorPlacement } from './AOSAnchorPlacement'
     import { cleanEmptyProperty, isBrowserMode } from './utils'
-    // import { dispatcherInsance } from './classes/Dispatcher'
 
     const customProps = [ 'order', 'step', 'isGroup', 'tag' ]
     const defaultProps: Record<string, string | number> = {}
@@ -20,6 +18,7 @@
         'anchor',
         'anchorPlacement'
     ]
+    
     let aosEventNames = [] as (string | number)[]
 
     function initAOSEventTable() {
@@ -115,17 +114,21 @@
 
             } else {
 
-                const slotsChildren: VNode[] = (slots?.default && slots.default()) ?? []
+                return () => {
 
-                for (const vnode of slotsChildren) {
+                    const slotsChildren: VNode[] = (slots?.default && slots.default()) || []
 
-                    vnode.props = vnode.props || {}
+                    for (const vnode of slotsChildren) {
 
-                    Object.assign(vnode.props, allPropsForChildren)
+                        vnode.props = vnode.props || {}
+
+                        Object.assign(vnode.props, allPropsForChildren)
+
+                    }
+
+                    return slotsChildren
 
                 }
-
-                return () => slotsChildren
 
             }
 
@@ -171,7 +174,7 @@
 
                     const delay = customValue.delay || customValue['data-aos-delay'] || defaultValue['data-aos-delay'] || 0
 
-                    customValue[key] = `${ +delay + ((+customValue.order - 1) * +customValue.step) }`
+                    customValue[key] = `${ +delay + (Math.max((+customValue.order - 1), 0) * +customValue.step) }`
 
                 } else if (customProps.includes(key)) {
 
