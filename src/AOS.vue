@@ -1,9 +1,9 @@
 <script lang="ts">
 
     import kebabCase from 'lodash.kebabcase'
-    import Vue, { defineComponent, h, PropType, VNode, onUnmounted } from 'vue'
+    import { defineComponent, h, PropType, VNode, onUnmounted, toRefs, ref, watch, getCurrentInstance, VNodeArrayChildren } from 'vue'
     import { AnchorPlacement } from './AOSAnchorPlacement'
-    import { cleanEmptyProperty, isBrowserMode } from './utils'
+    import { cleanEmptyProperty, isBrowserMode, generateId } from './utils'
 
     const customProps = [ 'order', 'step', 'isGroup', 'tag' ]
     const defaultProps: Record<string, string | number> = {}
@@ -16,9 +16,10 @@
         'id',
         'disableAnimation',
         'anchor',
-        'anchorPlacement'
+        'anchorPlacement',
+        'once'
     ]
-    
+
     let aosEventNames = [] as (string | number)[]
 
     function initAOSEventTable() {
@@ -45,72 +46,178 @@
 
     }
 
+    const hasInitialized = ref(false)
+
     export default defineComponent({
         name: 'AOS',
         props: {
-            type: { default: 'fade-up', type: String },
-            easing: { default: null, type: String },
-            duration: { default: null, type: [ String, Number ] },
-            offset: { default: null, type: [ String, Number ] },
-            delay: { default: null, type: [ String, Number ] },
-            anchor: { default: null, type: String },
-            anchorPlacement: { default: null, type: String as PropType<keyof AnchorPlacement> },
-            order: { default: 1, type: [ String, Number ] },
-            step: { default: 300, type: [ String, Number ] },
-            isGroup: { default: false, type: Boolean },
-            tag: { default: 'div', type: String },
-            disableAnimation: { default: false, type: Boolean }
+            type: { type: String, default: 'fade-up' },
+            easing: { type: String, default: null },
+            duration: { type: [ String, Number ], default: null },
+            offset: { type: [ String, Number ], default: null },
+            delay: { type: [ String, Number ], default: null },
+            anchor: { type: String, default: null },
+            anchorPlacement: { type: String as PropType<keyof AnchorPlacement>, default: null },
+            order: { type: [ String, Number ], default: 1 },
+            step: { type: [ String, Number ], default: 300 },
+            isGroup: { type: Boolean, default: false },
+            tag: { type: String, default: 'div' },
+            disableAnimation: { type: Boolean, default: false },
+            once: { type: Boolean, default: true }
         },
+        emits: [ 'in', 'out', 'after-in', 'after-out' ],
         setup(props, { attrs, slots, emit }) {
+
+            const internalInstance = getCurrentInstance()
+            const aosInitListenerName = internalInstance?.appContext.config.globalProperties.$aos?.options?.startEvent
+
+            if (aosInitListenerName && !hasInitialized.value) {
+
+                document.addEventListener(
+                    aosInitListenerName,
+                    () => {
+
+                        hasInitialized.value = true
+
+                    },
+                    { once: true }
+                )
+
+            }
 
             props = cleanEmptyProperty(props)
 
             const extraCustomProps: Record<string, string | number> = {}
+            const hasEmitedAfterIn = ref(false)
+            const alreadyIn = ref(false)
+            const id = generateId()
 
-            if (attrs.onIn || attrs.onOut) {
+            extraCustomProps.id = id
 
-                const id = +new Date()
+            if (isBrowserMode) {
 
-                extraCustomProps.id = id
+                initAOSEventTable()
 
-                const DOMListeners = cleanEmptyProperty({
-                    in: attrs.onIn,
-                    out: attrs.onOut
-                })
+                if (!checkAOSEvent(id)) {
 
-                if (isBrowserMode) {
+                    const DOMListeners: Record<string, (e?: Event) => void> = {
+                        in: (e) => {
 
-                    initAOSEventTable()
+                            alreadyIn.value = true
+                            emit('in')
 
-                    if (!checkAOSEvent(id!)) {
+                            // console.log('in', e)
 
-                        for (const event in DOMListeners) {
+                        }
+                    }
 
-                            document.addEventListener(`aos:${ event }:${ id }`, DOMListeners[event])
+                    if (!props.once) {
 
-                            onUnmounted(() => {
+                        DOMListeners.out = () => {
 
-                                document.removeEventListener(`aos:${ event }:${ id }`, DOMListeners[event])
-                                cancelAOSEvent(id!)
-
-                            })
+                            alreadyIn.value = false
+                            emit('out')
 
                         }
 
-                        registerAOSEvent(id!)
+                    }
+
+                    for (const event in DOMListeners) {
+
+                        document.addEventListener(`aos:${ event }:${ id }`, DOMListeners[event])
+
+                        onUnmounted(() => {
+
+                            document.removeEventListener(`aos:${ event }:${ id }`, DOMListeners[event])
+                            cancelAOSEvent(id)
+
+                        })
 
                     }
+
+                    registerAOSEvent(id)
 
                 }
 
             }
 
             const customProps = Object.assign({}, props, extraCustomProps)
-            const allPropsForChildren = Object.assign(mergeProps(defaultProps, customProps), attrs)
+            const allPropsForChildren = mergeProps(defaultProps, customProps)
+            const onTransitionend = (event: Event) => {
+
+                if (event.target === event.currentTarget && alreadyIn.value && !hasEmitedAfterIn.value) {
+
+                    emit('after-in')
+                    hasEmitedAfterIn.value = true
+
+                }
+
+            }
+
+            function generateUpdatedHook(vnode: VNode) {
+
+                let aosAttrsRemoved = false
+
+                const onVnodeUpdatedByAOS = () => {
+
+                    if (props.once && hasEmitedAfterIn.value && !aosAttrsRemoved) {
+
+                        /**
+                         * in some cases we can't find 'el' property in vnode object directly
+                         */
+
+                        const el = vnode.el || (vnode.children && (vnode.children as any)[0].el.parentElement)
+
+                        if (!el) return
+
+                        el.removeAttribute('data-aos')
+
+                        aosNativeProps.forEach((attrsName) => {
+
+                            el.removeAttribute(`data-aos-${ kebabCase(attrsName) }`)
+
+                        })
+
+                        aosAttrsRemoved = true
+
+                    }
+
+                }
+
+                return onVnodeUpdatedByAOS
+
+            }
 
             if (props.isGroup) {
 
-                return () => h(props.tag, allPropsForChildren, slots)
+                return () => {
+
+                    const childVnodes = (slots.default && slots.default()) || []
+
+                    // console.log(childVnodes)
+
+                    const vnode = h(
+                        props.tag,
+                        {
+                            ...allPropsForChildren,
+                            onTransitionend,
+                            class: [
+                                { 'aos-init': (!props.once && hasInitialized.value) || (props.once && hasInitialized.value && !hasEmitedAfterIn.value) },
+                                { 'aos-animate': (!props.once && alreadyIn.value) || (props.once && alreadyIn.value && !hasEmitedAfterIn.value) }
+                            ]
+                        },
+                        childVnodes
+                    )
+
+                    mergeLifeHooks(vnode, 'onVnodeUpdated', generateUpdatedHook(vnode))
+
+                    // mergeLifeHooks(vnode, 'onVnodeUpdated', generateUpdatedHook(vnode))
+
+                    // console.log(vnode)
+
+                    return vnode
+
+                }
 
             } else {
 
@@ -122,7 +229,27 @@
 
                         vnode.props = vnode.props || {}
 
-                        Object.assign(vnode.props, allPropsForChildren)
+                        mergeLifeHooks(vnode, 'onVnodeUpdated', generateUpdatedHook(vnode))
+
+                        Object.assign(
+                            vnode.props,
+                            allPropsForChildren,
+                            { onTransitionend }
+                        )
+
+                        vnode.props.class = vnode.props.class || ''
+
+                        if ((!props.once && hasInitialized.value) || (props.once && hasInitialized.value && !hasEmitedAfterIn.value)) {
+
+                            vnode.props.class += ' ' + 'aos-init'
+
+                        }
+
+                        if ((!props.once && alreadyIn.value) || (props.once && alreadyIn.value && !hasEmitedAfterIn.value)) {
+
+                            vnode.props.class += ' ' + 'aos-animate'
+
+                        }
 
                     }
 
@@ -135,6 +262,39 @@
         }
 
     })
+
+    function mergeLifeHooks(vnode: VNode, lifehook: string, cb: () => void) {
+
+        if (vnode.props && vnode.props[lifehook]) {
+
+            if (Array.isArray(vnode.props[lifehook])) {
+
+                if (!vnode.props[lifehook].some((hook: () => void) => hook.name === cb.name)) {
+
+                    vnode.props[lifehook].push(cb)
+
+                }
+
+            } else {
+
+                if (vnode.props[lifehook].name !== cb.name) {
+
+                    vnode.props[lifehook] = [
+                        vnode.props[lifehook],
+                        cb
+                    ]
+
+                }
+
+            }
+
+        } else {
+
+            vnode.props![lifehook] = cb
+
+        }
+
+    }
 
     function mergeProps(defaultValue: Record<string, string | number>, customValue: Record<string, string | number | boolean>) {
 
@@ -216,6 +376,8 @@
     );
 
     [data-aos] {
+
+        will-change: transform, opacity;
 
         @each $key, $val in $aos-easing {
             body[data-aos-easing="#{$key}"] &,

@@ -17,3 +17,10 @@ export function cleanEmptyProperty(object: any) {
 }
 
 export const isBrowserMode: boolean = typeof window === 'object'
+
+export function generateId() {
+
+    return Math.random().toString(36).substr(2, 6)
+
+}
+
