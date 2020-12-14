@@ -106,8 +106,6 @@
                             alreadyIn.value = true
                             emit('in')
 
-                            // console.log('in', e)
-
                         }
                     }
 
@@ -154,47 +152,39 @@
 
             }
 
-            function generateUpdatedHook(vnode: VNode) {
+            const _onVnodeUpdatedByAOS = (vnode: VNode, cb: () => void) => {
 
-                let aosAttrsRemoved = false
+                if (props.once && hasEmitedAfterIn.value) {
 
-                const onVnodeUpdatedByAOS = () => {
+                    /**
+                     * in some cases we can't find 'el' property in vnode object directly
+                     */
 
-                    if (props.once && hasEmitedAfterIn.value && !aosAttrsRemoved) {
+                    const el = vnode.el || (vnode.children && (vnode.children as any)[0].el.parentElement)
 
-                        /**
-                         * in some cases we can't find 'el' property in vnode object directly
-                         */
+                    if (!el) return
 
-                        const el = vnode.el || (vnode.children && (vnode.children as any)[0].el.parentElement)
+                    el.removeAttribute('data-aos')
 
-                        if (!el) return
+                    aosNativeProps.forEach((attrsName) => {
 
-                        el.removeAttribute('data-aos')
+                        el.removeAttribute(`data-aos-${ kebabCase(attrsName) }`)
 
-                        aosNativeProps.forEach((attrsName) => {
+                    })
 
-                            el.removeAttribute(`data-aos-${ kebabCase(attrsName) }`)
-
-                        })
-
-                        aosAttrsRemoved = true
-
-                    }
+                    cb()
 
                 }
-
-                return onVnodeUpdatedByAOS
 
             }
 
             if (props.isGroup) {
 
+                let aosAttrsRemoved = false
+
                 return () => {
 
                     const childVnodes = (slots.default && slots.default()) || []
-
-                    // console.log(childVnodes)
 
                     const vnode = h(
                         props.tag,
@@ -209,11 +199,19 @@
                         childVnodes
                     )
 
-                    mergeLifeHooks(vnode, 'onVnodeUpdated', generateUpdatedHook(vnode))
+                    mergeLifeHooks(vnode, 'onVnodeUpdated', function onVnodeUpdatedByAOS() {
 
-                    // mergeLifeHooks(vnode, 'onVnodeUpdated', generateUpdatedHook(vnode))
+                        if (!aosAttrsRemoved) {
 
-                    // console.log(vnode)
+                            _onVnodeUpdatedByAOS(vnode, () => {
+
+                                aosAttrsRemoved = true
+
+                            })
+
+                        }
+
+                    })
 
                     return vnode
 
@@ -221,15 +219,34 @@
 
             } else {
 
+                /**
+                 * Intentionally create slot component in order to get the number of children elements
+                 * May have a alternative lighter way
+                 */
+                const childrenNumber = ((slots?.default && slots.default()) || []).length
+                const aosAttrsRemoved = Array(childrenNumber).fill(false)
+
                 return () => {
 
                     const slotsChildren: VNode[] = (slots?.default && slots.default()) || []
 
-                    for (const vnode of slotsChildren) {
+                    slotsChildren.forEach((vnode, index) => {
 
                         vnode.props = vnode.props || {}
 
-                        mergeLifeHooks(vnode, 'onVnodeUpdated', generateUpdatedHook(vnode))
+                        mergeLifeHooks(vnode, 'onVnodeUpdated', function onVnodeUpdatedByAOS() {
+
+                            if (!aosAttrsRemoved[index]) {
+
+                                _onVnodeUpdatedByAOS(vnode, () => {
+
+                                    aosAttrsRemoved[index] = true
+
+                                })
+
+                            }
+
+                        })
 
                         Object.assign(
                             vnode.props,
@@ -251,7 +268,7 @@
 
                         }
 
-                    }
+                    })
 
                     return slotsChildren
 
