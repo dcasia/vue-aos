@@ -1,31 +1,35 @@
 {
-  "name": "vue-aos",
-  "version": "0.1.0",
-  "description": "Implementing animation on scroll based on Vue 3",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dcasia/vue-aos.git"
-  },
-  "keywords": [
-    "aos",
-    "animation",
-    "vue",
-    "3"
-  ],
-  "author": "Ryan Wu",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dcasia/vue-aos/issues"
-  },
-  "homepage": "https://github.com/dcasia/vue-aos#readme",
-  "dependencies": {
-    "@dcasia/aos": "^3.0.2",
-    "@types/aos": "^3.0.3",
-    "lodash.kebabcase": "^4.1.1",
-    "vue": "^3.0.4"
-  }
+    "name": "vue-aos",
+    "version": "0.1.0",
+    "description": "Implementing animation on scroll based on Vue 3",
+    "main": "index.js",
+    "scripts": {
+        "build": "vue-cli-service build --target lib",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dcasia/vue-aos.git"
+    },
+    "keywords": [
+        "aos",
+        "animation",
+        "vue",
+        "3"
+    ],
+    "author": "Ryan Wu",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/dcasia/vue-aos/issues"
+    },
+    "homepage": "https://github.com/dcasia/vue-aos#readme",
+    "dependencies": {
+        "@dcasia/aos": "^3.0.2",
+        "@types/aos": "^3.0.3",
+        "lodash.kebabcase": "^4.1.1",
+        "vue": "^3.0.4"
+    },
+    "devDependencies": {
+        "@vue/cli-service": "^4.5.9"
+    }
 }
