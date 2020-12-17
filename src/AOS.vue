@@ -63,7 +63,8 @@
             isGroup: { type: Boolean, default: false },
             tag: { type: String, default: 'div' },
             disableAnimation: { type: Boolean, default: false },
-            once: { type: Boolean, default: true }
+            once: { type: Boolean, default: true },
+            persistentAttributes: { type: Boolean, default: true }
         },
         emits: [ 'in', 'out', 'after-in', 'after-out' ],
         setup(props, { attrs, slots, emit }) {
@@ -105,6 +106,8 @@
 
                             alreadyIn.value = true
                             emit('in')
+
+                            // console.log('in', e)
 
                         }
                     }
@@ -154,7 +157,9 @@
 
             const _onVnodeUpdatedByAOS = (vnode: VNode, cb: () => void) => {
 
-                if (props.once && hasEmitedAfterIn.value) {
+                console.log(props.persistentAttributes)
+
+                if (!props.persistentAttributes && props.once && hasEmitedAfterIn.value) {
 
                     /**
                      * in some cases we can't find 'el' property in vnode object directly
@@ -192,8 +197,8 @@
                             ...allPropsForChildren,
                             onTransitionend,
                             class: [
-                                { 'aos-init': (!props.once && hasInitialized.value) || (props.once && hasInitialized.value && !hasEmitedAfterIn.value) },
-                                { 'aos-animate': (!props.once && alreadyIn.value) || (props.once && alreadyIn.value && !hasEmitedAfterIn.value) }
+                                { 'aos-init': (!props.once && hasInitialized.value) || (props.once && hasInitialized.value && (!hasEmitedAfterIn.value || props.persistentAttributes)) },
+                                { 'aos-animate': (!props.once && alreadyIn.value) || (props.once && alreadyIn.value && (!hasEmitedAfterIn.value || props.persistentAttributes)) }
                             ]
                         },
                         childVnodes
@@ -256,13 +261,13 @@
 
                         vnode.props.class = vnode.props.class || ''
 
-                        if ((!props.once && hasInitialized.value) || (props.once && hasInitialized.value && !hasEmitedAfterIn.value)) {
+                        if ((!props.once && hasInitialized.value) || (props.once && hasInitialized.value && (!hasEmitedAfterIn.value || props.persistentAttributes))) {
 
                             vnode.props.class += ' ' + 'aos-init'
 
                         }
 
-                        if ((!props.once && alreadyIn.value) || (props.once && alreadyIn.value && !hasEmitedAfterIn.value)) {
+                        if ((!props.once && alreadyIn.value) || (props.once && alreadyIn.value && (!hasEmitedAfterIn.value || props.persistentAttributes))) {
 
                             vnode.props.class += ' ' + 'aos-animate'
 

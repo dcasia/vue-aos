@@ -142,6 +142,13 @@ module.exports = function (fn, that, length) {
 
 /***/ }),
 
+/***/ "0433":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "057f":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -279,13 +286,6 @@ module.exports = (!STRICT_METHOD || !USES_TO_LENGTH) ? function forEach(callback
   return $forEach(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
 } : [].forEach;
 
-
-/***/ }),
-
-/***/ "194a":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -2170,17 +2170,6 @@ module.exports = function (NAME) {
     value: wrappedWellKnownSymbolModule.f(NAME)
   });
 };
-
-
-/***/ }),
-
-/***/ "76fc":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AOS_vue_vue_type_style_index_0_id_18fd72d6_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("194a");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AOS_vue_vue_type_style_index_0_id_18fd72d6_lang_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AOS_vue_vue_type_style_index_0_id_18fd72d6_lang_scss__WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
 
 
 /***/ }),
@@ -4498,6 +4487,17 @@ module.exports = {
 
 /***/ }),
 
+/***/ "b975":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AOS_vue_vue_type_style_index_0_id_07cf6e6c_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("0433");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AOS_vue_vue_type_style_index_0_id_07cf6e6c_lang_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AOS_vue_vue_type_style_index_0_id_07cf6e6c_lang_scss__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "c04e":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6186,6 +6186,10 @@ var hasInitialized = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"]
     once: {
       type: Boolean,
       "default": true
+    },
+    persistentAttributes: {
+      type: Boolean,
+      "default": true
     }
   },
   emits: ['in', 'out', 'after-in', 'after-out'],
@@ -6221,7 +6225,7 @@ var hasInitialized = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"]
           var DOMListeners = {
             "in": function _in(e) {
               alreadyIn.value = true;
-              emit('in');
+              emit('in'); // console.log('in', e)
             }
           };
 
@@ -6260,7 +6264,9 @@ var hasInitialized = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"]
     };
 
     var _onVnodeUpdatedByAOS = function _onVnodeUpdatedByAOS(vnode, cb) {
-      if (props.once && hasEmitedAfterIn.value) {
+      console.log(props.persistentAttributes);
+
+      if (!props.persistentAttributes && props.once && hasEmitedAfterIn.value) {
         /**
          * in some cases we can't find 'el' property in vnode object directly
          */
@@ -6281,9 +6287,9 @@ var hasInitialized = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"]
         var vnode = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["h"])(props.tag, _objectSpread2(_objectSpread2({}, allPropsForChildren), {}, {
           onTransitionend: onTransitionend,
           "class": [{
-            'aos-init': !props.once && hasInitialized.value || props.once && hasInitialized.value && !hasEmitedAfterIn.value
+            'aos-init': !props.once && hasInitialized.value || props.once && hasInitialized.value && (!hasEmitedAfterIn.value || props.persistentAttributes)
           }, {
-            'aos-animate': !props.once && alreadyIn.value || props.once && alreadyIn.value && !hasEmitedAfterIn.value
+            'aos-animate': !props.once && alreadyIn.value || props.once && alreadyIn.value && (!hasEmitedAfterIn.value || props.persistentAttributes)
           }]
         }), childVnodes);
         mergeLifeHooks(vnode, 'onVnodeUpdated', function onVnodeUpdatedByAOS() {
@@ -6320,11 +6326,11 @@ var hasInitialized = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"]
           });
           vnode.props["class"] = vnode.props["class"] || '';
 
-          if (!props.once && hasInitialized.value || props.once && hasInitialized.value && !hasEmitedAfterIn.value) {
+          if (!props.once && hasInitialized.value || props.once && hasInitialized.value && (!hasEmitedAfterIn.value || props.persistentAttributes)) {
             vnode.props["class"] += ' ' + 'aos-init';
           }
 
-          if (!props.once && alreadyIn.value || props.once && alreadyIn.value && !hasEmitedAfterIn.value) {
+          if (!props.once && alreadyIn.value || props.once && alreadyIn.value && (!hasEmitedAfterIn.value || props.persistentAttributes)) {
             vnode.props["class"] += ' ' + 'aos-animate';
           }
         });
@@ -6391,8 +6397,8 @@ function mergeProps(defaultValue, customValue) {
 }
 // CONCATENATED MODULE: ./src/AOS.vue?vue&type=script&lang=ts
  
-// EXTERNAL MODULE: ./src/AOS.vue?vue&type=style&index=0&id=18fd72d6&lang=scss
-var AOSvue_type_style_index_0_id_18fd72d6_lang_scss = __webpack_require__("76fc");
+// EXTERNAL MODULE: ./src/AOS.vue?vue&type=style&index=0&id=07cf6e6c&lang=scss
+var AOSvue_type_style_index_0_id_07cf6e6c_lang_scss = __webpack_require__("b975");
 
 // CONCATENATED MODULE: ./src/AOS.vue
 
