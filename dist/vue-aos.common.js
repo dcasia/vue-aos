@@ -1890,6 +1890,17 @@ module.exports = !nativeAssign || fails(function () {
 
 /***/ }),
 
+/***/ "61ec":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AOS_vue_vue_type_style_index_0_id_abe19656_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("b54a");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AOS_vue_vue_type_style_index_0_id_abe19656_lang_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AOS_vue_vue_type_style_index_0_id_abe19656_lang_scss__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "6547":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2397,17 +2408,6 @@ var inspectSource = __webpack_require__("8925");
 var WeakMap = global.WeakMap;
 
 module.exports = typeof WeakMap === 'function' && /native code/.test(inspectSource(WeakMap));
-
-
-/***/ }),
-
-/***/ "8077":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AOS_vue_vue_type_style_index_0_id_2148c180_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("b570");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AOS_vue_vue_type_style_index_0_id_2148c180_lang_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_AOS_vue_vue_type_style_index_0_id_2148c180_lang_scss__WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
 
 
 /***/ }),
@@ -4273,7 +4273,7 @@ if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
 
 /***/ }),
 
-/***/ "b570":
+/***/ "b54a":
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
@@ -6101,9 +6101,9 @@ function generateId() {
 
 
 
-var AOSvue_type_script_lang_ts_customProps = ['order', 'step', 'isGroup', 'tag'];
 var defaultProps = {};
 var aosNativeProps = ['type', 'easing', 'delay', 'duration', 'offset', 'id', 'disableAnimation', 'anchor', 'anchorPlacement', 'once'];
+var AOSvue_type_script_lang_ts_customProps = ['order', 'step', 'isGroup', 'tag', 'persistentAttributes', 'hiddenOnServer'];
 var aosEventNames = [];
 
 function initAOSEventTable() {
@@ -6181,17 +6181,23 @@ var hasInitialized = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"]
     persistentAttributes: {
       type: Boolean,
       "default": true
+    },
+    hiddenOnServer: {
+      type: Boolean,
+      "default": true
     }
   },
   emits: ['in', 'out', 'after-in', 'after-out'],
   setup: function setup(props, _ref) {
-    var _internalInstance$app, _internalInstance$app2;
+    var _internalInstance$app2;
 
-    var attrs = _ref.attrs,
-        slots = _ref.slots,
+    var slots = _ref.slots,
         emit = _ref.emit;
     var internalInstance = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["getCurrentInstance"])();
-    var aosInitListenerName = internalInstance === null || internalInstance === void 0 ? void 0 : (_internalInstance$app = internalInstance.appContext.config.globalProperties.$aos) === null || _internalInstance$app === void 0 ? void 0 : (_internalInstance$app2 = _internalInstance$app.options) === null || _internalInstance$app2 === void 0 ? void 0 : _internalInstance$app2.startEvent;
+
+    var _internalInstance$app = internalInstance === null || internalInstance === void 0 ? void 0 : (_internalInstance$app2 = internalInstance.appContext.config.globalProperties.$aos) === null || _internalInstance$app2 === void 0 ? void 0 : _internalInstance$app2.options,
+        aosInitListenerName = _internalInstance$app.startEvent,
+        isBrowser = _internalInstance$app.isBrowser;
 
     if (aosInitListenerName && !hasInitialized.value) {
       document.addEventListener(aosInitListenerName, function () {
@@ -6208,15 +6214,15 @@ var hasInitialized = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"]
     var id = generateId();
     extraCustomProps.id = id;
 
-    if (isBrowserMode) {
+    if (isBrowserMode || isBrowser) {
       initAOSEventTable();
 
       if (!checkAOSEvent(id)) {
         (function () {
           var DOMListeners = {
-            "in": function _in(e) {
+            "in": function _in() {
               alreadyIn.value = true;
-              emit('in'); // console.log('in', e)
+              emit('in');
             }
           };
 
@@ -6255,8 +6261,6 @@ var hasInitialized = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"]
     };
 
     var _onVnodeUpdatedByAOS = function _onVnodeUpdatedByAOS(vnode, cb) {
-      console.log(props.persistentAttributes);
-
       if (!props.persistentAttributes && props.once && hasEmitedAfterIn.value) {
         /**
          * in some cases we can't find 'el' property in vnode object directly
@@ -6281,6 +6285,8 @@ var hasInitialized = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"]
             'aos-init': !props.once && hasInitialized.value || props.once && hasInitialized.value && (!hasEmitedAfterIn.value || props.persistentAttributes)
           }, {
             'aos-animate': !props.once && alreadyIn.value || props.once && alreadyIn.value && (!hasEmitedAfterIn.value || props.persistentAttributes)
+          }, {
+            'aos-hidden': props.hiddenOnServer && (!isBrowserMode || !isBrowser)
           }]
         }), childVnodes);
         mergeLifeHooks(vnode, 'onVnodeUpdated', function onVnodeUpdatedByAOS() {
@@ -6323,6 +6329,10 @@ var hasInitialized = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"]
 
           if (!props.once && alreadyIn.value || props.once && alreadyIn.value && (!hasEmitedAfterIn.value || props.persistentAttributes)) {
             vnode.props["class"] += ' ' + 'aos-animate';
+          }
+
+          if (props.hiddenOnServer && (!isBrowserMode || !isBrowser)) {
+            vnode.props["class"] += ' ' + 'aos-hidden';
           }
         });
         return slotsChildren;
@@ -6388,8 +6398,8 @@ function mergeProps(defaultValue, customValue) {
 }
 // CONCATENATED MODULE: ./src/AOS.vue?vue&type=script&lang=ts
  
-// EXTERNAL MODULE: ./src/AOS.vue?vue&type=style&index=0&id=2148c180&lang=scss
-var AOSvue_type_style_index_0_id_2148c180_lang_scss = __webpack_require__("8077");
+// EXTERNAL MODULE: ./src/AOS.vue?vue&type=style&index=0&id=abe19656&lang=scss
+var AOSvue_type_style_index_0_id_abe19656_lang_scss = __webpack_require__("61ec");
 
 // CONCATENATED MODULE: ./src/AOS.vue
 

@@ -1,11 +1,10 @@
 <script lang="ts">
 
     import kebabCase from 'lodash.kebabcase'
-    import { defineComponent, h, PropType, VNode, onUnmounted, toRefs, ref, watch, getCurrentInstance, VNodeArrayChildren } from 'vue'
+    import { defineComponent, h, PropType, VNode, onUnmounted, ref, getCurrentInstance } from 'vue'
     import { AnchorPlacement } from './AOSAnchorPlacement'
-    import { cleanEmptyProperty, isBrowserMode, generateId } from './utils'
+    import { cleanEmptyProperty, generateId, isBrowserMode as _isBrowser } from './utils'
 
-    const customProps = [ 'order', 'step', 'isGroup', 'tag' ]
     const defaultProps: Record<string, string | number> = {}
     const aosNativeProps = [
         'type',
@@ -18,6 +17,14 @@
         'anchor',
         'anchorPlacement',
         'once'
+    ]
+    const customProps = [
+        'order',
+        'step',
+        'isGroup',
+        'tag',
+        'persistentAttributes',
+        'hiddenOnServer'
     ]
 
     let aosEventNames = [] as (string | number)[]
@@ -64,13 +71,14 @@
             tag: { type: String, default: 'div' },
             disableAnimation: { type: Boolean, default: false },
             once: { type: Boolean, default: true },
-            persistentAttributes: { type: Boolean, default: true }
+            persistentAttributes: { type: Boolean, default: true },
+            hiddenOnServer: { type: Boolean, default: true }
         },
         emits: [ 'in', 'out', 'after-in', 'after-out' ],
-        setup(props, { attrs, slots, emit }) {
+        setup(props, { slots, emit }) {
 
             const internalInstance = getCurrentInstance()
-            const aosInitListenerName = internalInstance?.appContext.config.globalProperties.$aos?.options?.startEvent
+            const { startEvent: aosInitListenerName, isBrowser } = internalInstance?.appContext.config.globalProperties.$aos?.options
 
             if (aosInitListenerName && !hasInitialized.value) {
 
@@ -95,19 +103,17 @@
 
             extraCustomProps.id = id
 
-            if (isBrowserMode) {
+            if (_isBrowser || isBrowser) {
 
                 initAOSEventTable()
 
                 if (!checkAOSEvent(id)) {
 
                     const DOMListeners: Record<string, (e?: Event) => void> = {
-                        in: (e) => {
+                        in: () => {
 
                             alreadyIn.value = true
                             emit('in')
-
-                            // console.log('in', e)
 
                         }
                     }
@@ -157,8 +163,6 @@
 
             const _onVnodeUpdatedByAOS = (vnode: VNode, cb: () => void) => {
 
-                console.log(props.persistentAttributes)
-
                 if (!props.persistentAttributes && props.once && hasEmitedAfterIn.value) {
 
                     /**
@@ -198,7 +202,8 @@
                             onTransitionend,
                             class: [
                                 { 'aos-init': (!props.once && hasInitialized.value) || (props.once && hasInitialized.value && (!hasEmitedAfterIn.value || props.persistentAttributes)) },
-                                { 'aos-animate': (!props.once && alreadyIn.value) || (props.once && alreadyIn.value && (!hasEmitedAfterIn.value || props.persistentAttributes)) }
+                                { 'aos-animate': (!props.once && alreadyIn.value) || (props.once && alreadyIn.value && (!hasEmitedAfterIn.value || props.persistentAttributes)) },
+                                { 'aos-hidden': props.hiddenOnServer && (!_isBrowser || !isBrowser) }
                             ]
                         },
                         childVnodes
@@ -270,6 +275,12 @@
                         if ((!props.once && alreadyIn.value) || (props.once && alreadyIn.value && (!hasEmitedAfterIn.value || props.persistentAttributes))) {
 
                             vnode.props.class += ' ' + 'aos-animate'
+
+                        }
+
+                        if (props.hiddenOnServer && (!_isBrowser || !isBrowser)) {
+
+                            vnode.props.class += ' ' + 'aos-hidden'
 
                         }
 
@@ -435,6 +446,12 @@
             }
 
         }
+
+    }
+
+    .aos-hidden {
+
+        opacity: 0;
 
     }
 
