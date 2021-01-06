@@ -21,7 +21,7 @@ import '@dcasia/vue-aos/dist/vue-aos.css'
 createApp(App)
     .use(VueAOS, {
         disable: false,
-		isBrowser: true
+        isBrowser: true
         anchorPlacement: 'center-bottom',
         once: true,
         duration: 1000,
@@ -39,7 +39,7 @@ createApp(App)
 
 <AOS>
     <div>
-    I'll be animated when you see me in the viewport
+        I'll be animated when you see me in the viewport
     </div>
 </AOS>
 ```
