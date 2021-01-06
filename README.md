@@ -21,7 +21,7 @@ import '@dcasia/vue-aos/dist/vue-aos.css'
 createApp(App)
     .use(VueAOS, {
         disable: false,
-        isBrowser: true
+        isBrowser: true,
         anchorPlacement: 'center-bottom',
         once: true,
         duration: 1000,
