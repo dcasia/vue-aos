@@ -19,7 +19,7 @@ import VueAOS from '@dcasia/vue-aos'
 import '@dcasia/vue-aos/dist/vue-aos.css'
 
 createApp(App)
-	.use(VueAOS, {
+    .use(VueAOS, {
         disable: false,
 		isBrowser: true
         anchorPlacement: 'center-bottom',
@@ -30,7 +30,7 @@ createApp(App)
         startEvent: 'init-aos',
         disableMutationObserver: false
     })
-	.mount('#app')
+    .mount('#app')
 ```
 
 3. Feel free to use it in your Vue template
@@ -38,9 +38,9 @@ createApp(App)
 // app.vue
 
 <AOS>
-	<div>
-		I'll be animated when you see me in the viewport
-	</div>
+    <div>
+    I'll be animated when you see me in the viewport
+    </div>
 </AOS>
 ```
 
