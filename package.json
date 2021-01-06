@@ -1,8 +1,9 @@
 {
-    "name": "vue-aos",
-    "version": "0.1.0",
+    "name": "@dcasia/vue-aos",
+    "version": "1.0.0",
     "description": "Implementing animation on scroll based on Vue 3",
-    "main": "index.js",
+    "main": "dist/vue-aos.umd.min.js",
+    "files": ["dist"],
     "scripts": {
         "build": "vue-cli-service build --target lib ./src/index.ts",
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,7 +16,7 @@
         "aos",
         "animation",
         "vue",
-        "3"
+        "scroll"
     ],
     "author": "Ryan Wu",
     "license": "ISC",
@@ -23,13 +24,11 @@
         "url": "https://github.com/dcasia/vue-aos/issues"
     },
     "homepage": "https://github.com/dcasia/vue-aos#readme",
-    "dependencies": {
+    "devDependencies": {
         "@dcasia/aos": "^3.0.2",
         "@types/aos": "^3.0.3",
         "lodash.kebabcase": "^4.1.1",
-        "vue": "^3.0.4"
-    },
-    "devDependencies": {
+        "vue": "^3.0.4",
         "@typescript-eslint/eslint-plugin": "^4.9.1",
         "@typescript-eslint/parser": "^4.9.1",
         "@vue/cli-plugin-babel": "^4.5.9",

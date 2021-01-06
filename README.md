@@ -4,19 +4,24 @@ Implementing animation on scroll based on Vue 3
 
 ## How to use
 
-1. Import and register it in your Vue entry file
+1. Install it from NPM
+```Command line
+npm i @dcasia/vue-aos --save
+```
 
+2. Import and register it in your Vue entry file
 ```js
 // main.ts
 
 import { createApp } from 'vue'
 import App from './App.vue'
 import VueAOS from '@dcasia/vue-aos'
-import '@dcasia/vue-aos/vue-aos.css'
+import '@dcasia/vue-aos/dist/vue-aos.css'
 
 createApp(App)
 	.use(VueAOS, {
         disable: false,
+		isBrowser: true
         anchorPlacement: 'center-bottom',
         once: true,
         duration: 1000,
@@ -28,7 +33,7 @@ createApp(App)
 	.mount('#app')
 ```
 
-2. Feel free to use it in your Vue template
+3. Feel free to use it in your Vue template
 ```Vue
 // app.vue
 
@@ -41,4 +46,9 @@ createApp(App)
 
 
 ## Options
-…
+
+Updating...
+
+## API
+
+...
