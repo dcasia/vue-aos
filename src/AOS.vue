@@ -78,7 +78,10 @@
         setup(props, { slots, emit }) {
 
             const internalInstance = getCurrentInstance()
-            const { startEvent: aosInitListenerName, isBrowser } = internalInstance?.appContext.config.globalProperties.$aos?.options
+            const { startEvent: aosInitListenerName } = internalInstance?.appContext.config.globalProperties.$aos?.options
+            let { isBrowser } = internalInstance?.appContext.config.globalProperties.$aos?.options
+
+            isBrowser = typeof isBrowser === 'boolean' ? isBrowser : true
 
             if (aosInitListenerName && !hasInitialized.value) {
 
