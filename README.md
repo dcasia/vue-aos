@@ -47,7 +47,21 @@ createApp(App)
 
 ## Options
 
-Updating...
+Global Options
+
+| Name | Type | Functionality |
+|------|------|---------------|
+| disable | Boolean | Whether to disable the effect globally |
+| isBrowser | Boolean | Whether the current environment is a browser environment |
+| anchorPlacement | …. |               |
+| once | Boolean | Whether only have elements fade in and without fading out |
+| duration | Number | Animation duration |
+| easing | … | Animation easing name | 
+| offset | Number | The offset distance to the trigger point |
+| startEvent | String | Name of the event dispatched on the document, that AOS should initialize on |
+| disableMutationObserver | Boolean | Disables automatic mutations' detections |
+| … | … | … |
+
 
 ## API
 
