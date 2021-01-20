@@ -47,7 +47,7 @@ createApp(App)
 
 ## Options
 
-Global Options
+### Global Options
 
 | Name | Type | Functionality |
 |------|------|---------------|
@@ -56,11 +56,33 @@ Global Options
 | anchorPlacement | …. |               |
 | once | Boolean | Whether only have elements fade in and without fading out |
 | duration | Number | Animation duration |
-| easing | … | Animation easing name | 
-| offset | Number | The offset distance to the trigger point |
+| easing | … | Animation easing type | 
+| offset | Number | Distance from the trigger point, can be negative |
 | startEvent | String | Name of the event dispatched on the document, that AOS should initialize on |
 | disableMutationObserver | Boolean | Disables automatic mutations' detections |
 | … | … | … |
+
+### Component Options
+Options for single instance
+
+| Name | Type | Functionality |
+| ------ | ------ | ------ |
+| type | String | Animation type |
+| easing | String |  | Animation easing type | 
+| duration | Number \| String | Animation duration |
+| offset | Number \| String | Distance from the trigger point, can be negative |
+| delay | Number \| String | Animation delay | 
+| anchor | String | The name of the specified trigger anchor point |
+| anchorPlacement | … | The position of the trigger point, taken from several key positions of the element and viewport |
+| order | Number \| String | The sequential animation order, it basically automatically calculate delay for current instance |
+| step | Number \| String | The Interval delay between different order |
+| isGroup | Boolean | Whether to create a container element |
+| tag | String | The tag name of the container |
+| disableAnimation | Boolean | Disable animation on current instance but still can be triggered and emit key events |
+| once | Boolean | Whether only have elements fade in and without fading out |
+| persistentAttributes | Boolean | Whether to retain aos custom attributes and class names after animation is done |
+| hiddenOnServer | Boolean | Whether to hide itself on server side rendering to make it hidden at the very first beginning when it’s showing on client side |  
+
 
 
 ## API
