@@ -78,10 +78,11 @@
         setup(props, { slots, emit }) {
 
             const internalInstance = getCurrentInstance()
-            const { startEvent: aosInitListenerName } = internalInstance?.appContext.config.globalProperties.$aos?.options
-            let { isBrowser } = internalInstance?.appContext.config.globalProperties.$aos?.options
+            let { startEvent: aosInitListenerName } = internalInstance?.appContext.config.globalProperties.$aos?.options || {}
+            let { isBrowser } = internalInstance?.appContext.config.globalProperties.$aos?.options || {}
 
-            isBrowser = typeof isBrowser === 'boolean' ? isBrowser : true
+            aosInitListenerName ??= 'DOMContentLoaded'
+            isBrowser ??= true
 
             if (aosInitListenerName && !hasInitialized.value) {
 
@@ -164,7 +165,7 @@
 
             }
 
-            const _onVnodeUpdatedByAOS = (vnode: VNode, cb: () => void) => {
+            const _onVnodeUpdatedByAOS = (vnode: VNode, cb?: () => void) => {
 
                 if (!props.persistentAttributes && props.once && hasEmitedAfterIn.value) {
 
@@ -184,7 +185,7 @@
 
                     })
 
-                    cb()
+                    cb?.()
 
                 }
 
@@ -195,8 +196,6 @@
                 let aosAttrsRemoved = false
 
                 return () => {
-
-                    const childVnodes = (slots.default && slots.default()) || []
 
                     const vnode = h(
                         props.tag,
@@ -209,7 +208,7 @@
                                 { 'aos-hidden': props.hiddenOnServer && (!_isBrowser || !isBrowser) }
                             ]
                         },
-                        childVnodes
+                        slots
                     )
 
                     mergeLifeHooks(vnode, 'onVnodeUpdated', function onVnodeUpdatedByAOS() {
@@ -232,32 +231,17 @@
 
             } else {
 
-                /**
-                 * Intentionally create slot component in order to get the number of children elements
-                 * May have a alternative lighter way
-                 */
-                const childrenNumber = ((slots?.default && slots.default()) || []).length
-                const aosAttrsRemoved = Array(childrenNumber).fill(false)
-
                 return () => {
 
-                    const slotsChildren: VNode[] = (slots?.default && slots.default()) || []
+                    const slotsChildren: VNode[] = slots?.default?.() || []
 
-                    slotsChildren.forEach((vnode, index) => {
+                    slotsChildren.forEach((vnode) => {
 
                         vnode.props = vnode.props || {}
 
                         mergeLifeHooks(vnode, 'onVnodeUpdated', function onVnodeUpdatedByAOS() {
 
-                            if (!aosAttrsRemoved[index]) {
-
-                                _onVnodeUpdatedByAOS(vnode, () => {
-
-                                    aosAttrsRemoved[index] = true
-
-                                })
-
-                            }
+                            _onVnodeUpdatedByAOS(vnode)
 
                         })
 

@@ -12,6 +12,7 @@ module.exports = {
         ecmaVersion: 2020
     },
     rules: {
+        "no-var-requires": 0,
         'indent': [ 'error', 4 ],
         'vue/script-indent': [
             'error', 4, {
@@ -46,6 +47,7 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0
     },
+    'ignorePatterns': ['/dist', '/node_modules', '.eslintrc.js'],
     'overrides': [
         {
             'files': [ '*.vue' ],

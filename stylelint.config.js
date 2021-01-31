@@ -1,4 +1,5 @@
 module.exports = {
+    ignoreFiles: [ 'node_modules/**', 'dist/**' ],
     extends: [
         'stylelint-config-recommended-scss'
         // "stylelint-config-rational-order"
